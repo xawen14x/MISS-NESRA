@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Mic,
@@ -7,9 +7,8 @@ import {
   Sliders,
   RotateCcw,
   Sparkles,
-  CornerDownLeft,
 } from 'lucide-react';
-import { VoiceSettings, AvatarState, QAItem } from '../types.js';
+import { VoiceSettings, AvatarState } from '../types.js';
 
 interface VoiceControllerProps {
   onSendMessage: (text: string) => void;
@@ -22,21 +21,6 @@ interface VoiceControllerProps {
   onStopSpeaking: () => void;
   onQuickSelect?: (text: string) => void;
 }
-
-const DEFAULT_SUGGESTIONS = [
-  'Apa saja 4 jurusan unggulan di SMK Telkom 2 Medan?',
-  'Berapa rincian biaya pendaftaran, uang gedung (DPP), dan SPP bulanan?',
-  'Apa saja syarat berkas pendaftaran PPDB 2026/2027?',
-  'Bagaimana syarat mendapatkan beasiswa prestasi atau YPT?',
-  'Kapan jadwal gelombang pendaftaran PPDB dibuka?',
-  'Apa keunggulan dan prospek kerja jurusan RPL?',
-  'Apa keunggulan dan prospek kerja jurusan TKJ?',
-  'Apa keunggulan dan prospek kerja jurusan DKV?',
-  'Apa keunggulan dan prospek kerja jurusan TJAT?',
-  'Di mana alamat sekolah dan kontak WhatsApp resmi panitia PPDB?',
-  'Apakah ada fasilitas asrama atau beasiswa bagi siswa berprestasi?',
-  'Bagaimana alur pendaftaran offline di kampus Jl. Halat No. 8 Medan?',
-];
 
 export const VoiceController: React.FC<VoiceControllerProps> = ({
   onSendMessage,
@@ -53,105 +37,49 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
   const [showSettings, setShowSettings] = useState(false);
   const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [audioLevel, setAudioLevel] = useState(0);
-
-  // Autocomplete state (triggered when user pauses for > 2 seconds)
-  const [showAutocomplete, setShowAutocomplete] = useState(false);
-  const [autocompleteItems, setAutocompleteItems] = useState<string[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
-  const [kbList, setKbList] = useState<QAItem[]>([]);
+  const [isAutoSending, setIsAutoSending] = useState(false);
 
   const recognitionRef = useRef<any>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const micStreamRef = useRef<MediaStream | null>(null);
   const animationFrameRef = useRef<number | null>(null);
-  const inputDebounceTimerRef = useRef<any>(null);
+  const autoSendTimerRef = useRef<any>(null);
+  const latestInputRef = useRef(inputText);
+  latestInputRef.current = inputText;
 
-  // Fetch Knowledge Base for Autocomplete Pool
+  // Auto-answer timer: Automatically triggers AI response if user stops typing / speaking for 2 seconds
   useEffect(() => {
-    fetch('/api/kb')
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setKbList(data);
-      })
-      .catch((err) => console.warn('Could not fetch KB for autocomplete:', err));
-  }, []);
+    const trimmed = inputText.trim();
 
-  // Compute question pool for autocomplete
-  const questionPool = useMemo(() => {
-    const pool = new Set<string>(DEFAULT_SUGGESTIONS);
-    kbList.forEach((item) => {
-      if (item.question) pool.add(item.question);
-      if (Array.isArray(item.alternateQuestions)) {
-        item.alternateQuestions.forEach((q) => {
-          if (q && q.length > 5) pool.add(q);
-        });
-      }
-    });
-    return Array.from(pool);
-  }, [kbList]);
-
-  // Autocomplete Search Engine triggered after 2 seconds of inactivity
-  useEffect(() => {
-    const query = inputText.trim();
-
-    // Clear previous timer
-    if (inputDebounceTimerRef.current) {
-      clearTimeout(inputDebounceTimerRef.current);
+    if (autoSendTimerRef.current) {
+      clearTimeout(autoSendTimerRef.current);
+      autoSendTimerRef.current = null;
     }
 
-    if (query.length < 2) {
-      setShowAutocomplete(false);
-      setAutocompleteItems([]);
-      setSelectedIndex(-1);
+    if (!trimmed || trimmed.length < 3 || isLoading) {
+      setIsAutoSending(false);
       return;
     }
 
-    // Set 2000ms (2 seconds) debounce timer
-    inputDebounceTimerRef.current = setTimeout(() => {
-      const lowerQuery = query.toLowerCase();
-      const tokens = lowerQuery.split(/\s+/).filter((t) => t.length > 1);
+    setIsAutoSending(true);
 
-      // Score candidates based on query overlap and prefix match
-      const matched = questionPool
-        .map((candidate) => {
-          const lowerCandidate = candidate.toLowerCase();
-          let score = 0;
-
-          if (lowerCandidate.startsWith(lowerQuery)) {
-            score += 10;
-          } else if (lowerCandidate.includes(lowerQuery)) {
-            score += 6;
-          }
-
-          tokens.forEach((token) => {
-            if (lowerCandidate.includes(token)) {
-              score += 2;
-            }
-          });
-
-          return { candidate, score };
-        })
-        .filter((item) => item.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 4)
-        .map((item) => item.candidate);
-
-      if (matched.length > 0) {
-        setAutocompleteItems(matched);
-        setShowAutocomplete(true);
-        setSelectedIndex(0);
-      } else {
-        setShowAutocomplete(false);
+    // 2-second debounce timer to auto-send
+    autoSendTimerRef.current = setTimeout(() => {
+      const currentVal = latestInputRef.current.trim();
+      if (currentVal.length >= 3 && !isLoading) {
+        handleSend(currentVal);
       }
+      setIsAutoSending(false);
     }, 2000);
 
     return () => {
-      if (inputDebounceTimerRef.current) {
-        clearTimeout(inputDebounceTimerRef.current);
+      if (autoSendTimerRef.current) {
+        clearTimeout(autoSendTimerRef.current);
+        autoSendTimerRef.current = null;
       }
     };
-  }, [inputText, questionPool]);
+  }, [inputText, isLoading]);
 
   // Initialize Speech Recognition & Synthesis Voices
   useEffect(() => {
@@ -331,53 +259,23 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
   };
 
   const handleSend = (textOverride?: string) => {
+    if (autoSendTimerRef.current) {
+      clearTimeout(autoSendTimerRef.current);
+      autoSendTimerRef.current = null;
+    }
+    setIsAutoSending(false);
+
     if (isRecording) {
       stopRecording();
     }
-    const textToSend = (textOverride || inputText).trim();
+    const textToSend = (textOverride !== undefined ? textOverride : inputText).trim();
     if (!textToSend || isLoading) return;
 
-    setShowAutocomplete(false);
     onSendMessage(textToSend);
     setInputText('');
   };
 
-  const handleSelectAutocomplete = (suggestion: string, sendImmediately = false) => {
-    setShowAutocomplete(false);
-    if (sendImmediately) {
-      handleSend(suggestion);
-    } else {
-      setInputText(suggestion);
-    }
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (showAutocomplete && autocompleteItems.length > 0) {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % autocompleteItems.length);
-        return;
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + autocompleteItems.length) % autocompleteItems.length);
-        return;
-      }
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < autocompleteItems.length) {
-          setInputText(autocompleteItems[selectedIndex]);
-          setShowAutocomplete(false);
-        }
-        return;
-      }
-      if (e.key === 'Enter' && selectedIndex >= 0 && selectedIndex < autocompleteItems.length && !e.shiftKey) {
-        e.preventDefault();
-        handleSend(autocompleteItems[selectedIndex]);
-        return;
-      }
-    }
-
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -387,78 +285,7 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
   return (
     <div id="voice-controller" className="w-full px-4 sm:px-8 pb-4 pt-1 shrink-0 relative">
       <div className="max-w-2xl mx-auto flex flex-col gap-2 relative">
-        {/* 1. Autocomplete Floating Suggestions (Triggered after 2 seconds pause) */}
-        <AnimatePresence>
-          {showAutocomplete && autocompleteItems.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 6, scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="absolute bottom-full left-0 right-0 mb-3 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-3.5 shadow-2xl z-30 space-y-2"
-            >
-              <div className="flex items-center justify-between px-1">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                  <Sparkles className="w-3.5 h-3.5 text-[#E50914] animate-pulse" />
-                  <span>Saran Pertanyaan Lengkap (Autocomplete)</span>
-                </div>
-                <span className="text-[10px] text-slate-400 font-medium">
-                  Diam 2 dtk • Tekan Tab atau Klik
-                </span>
-              </div>
-
-              <div className="space-y-1.5 max-h-48 overflow-y-auto">
-                {autocompleteItems.map((item, idx) => {
-                  const isSelected = idx === selectedIndex;
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => handleSelectAutocomplete(item, true)}
-                      onMouseEnter={() => setSelectedIndex(idx)}
-                      className={`group flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-all ${
-                        isSelected
-                          ? 'bg-red-50 text-[#E50914] border border-red-200 shadow-xs'
-                          : 'hover:bg-slate-50 text-slate-700 border border-transparent'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 min-w-0 pr-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] shrink-0" />
-                        <span className="text-xs font-medium truncate">{item}</span>
-                      </div>
-                      <div className="flex items-center gap-1 shrink-0 opacity-80 group-hover:opacity-100">
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSelectAutocomplete(item, false);
-                          }}
-                          className="px-2 py-0.5 text-[10px] bg-white border border-slate-200 rounded text-slate-600 hover:text-slate-900 font-semibold"
-                          title="Isi teks tanpa kirim"
-                        >
-                          Isi Teks
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSelectAutocomplete(item, true);
-                          }}
-                          className="px-2 py-0.5 text-[10px] bg-[#E50914] text-white rounded font-bold hover:bg-red-700 flex items-center gap-0.5"
-                          title="Tanyakan langsung"
-                        >
-                          <span>Tanya</span>
-                          <CornerDownLeft className="w-2.5 h-2.5" />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* 2. Realtime Waveform Bar & Voice Active Feedback */}
+        {/* Realtime Waveform Bar & Voice Active Feedback */}
         <AnimatePresence>
           {isRecording && (
             <motion.div
@@ -470,7 +297,7 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#E50914] animate-ping" />
                 <span className="text-xs font-bold text-[#E50914]">
-                  Mendengarkan... Silakan berbicara
+                  Mendengarkan suara Anda... (Diam 2 dtk untuk menjawab otomatis)
                 </span>
               </div>
 
@@ -498,8 +325,8 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
           )}
         </AnimatePresence>
 
-        {/* 3. Floating Pill Input Bar */}
-        <div className="w-full bg-white border border-slate-200 rounded-3xl p-2 shadow-xl flex items-center gap-2">
+        {/* Floating Pill Input Bar */}
+        <div className="w-full bg-white border border-slate-200 rounded-3xl p-2 shadow-xl flex items-center gap-2 relative">
           {/* Reset Session Icon */}
           <button
             type="button"
@@ -512,20 +339,30 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
           </button>
 
           {/* Text Input */}
-          <input
-            type="text"
-            id="chat-text-input"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={isLoading}
-            placeholder={
-              isRecording
-                ? 'Sedang mendengarkan suara Anda...'
-                : 'Tanya jurusan RPL, TKJ, biaya, syarat PPDB (Autocomplete aktif)...'
-            }
-            className="flex-1 bg-transparent px-2 sm:px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
-          />
+          <div className="flex-1 relative flex items-center">
+            <input
+              type="text"
+              id="chat-text-input"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={isLoading}
+              placeholder={
+                isRecording
+                  ? 'Sedang mendengarkan suara Anda...'
+                  : 'Tanya seputar SPMB / PPDB SMK Telkom 2 Medan (Diam 2 detik untuk kirim otomatis)...'
+              }
+              className="w-full bg-transparent px-2 sm:px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
+            />
+
+            {/* 2-second Auto-Answer Badge */}
+            {isAutoSending && !isLoading && (
+              <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-full text-[10px] font-semibold animate-pulse shrink-0 mr-2">
+                <Sparkles className="w-2.5 h-2.5 text-[#E50914]" />
+                <span>Menjawab otomatis dlm 2 dtk...</span>
+              </div>
+            )}
+          </div>
 
           {/* TTS Settings Toggle */}
           <button
@@ -565,14 +402,14 @@ export const VoiceController: React.FC<VoiceControllerProps> = ({
               onClick={() => handleSend()}
               disabled={!inputText.trim() || isLoading}
               className="p-3 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-medium transition-all shrink-0 shadow-xs"
-              title="Kirim Pesan"
+              title="Kirim Pesan Sekarang"
             >
               <Send className="w-4 h-4" />
             </button>
           )}
         </div>
 
-        {/* 4. Expandable Voice & TTS Settings */}
+        {/* Expandable Voice & TTS Settings */}
         <AnimatePresence>
           {showSettings && (
             <motion.div

@@ -1,19 +1,51 @@
 [
   {
+    "id": "kb-000",
+    "category": "Umum",
+    "question": "Halo, selamat datang di Layanan Informasi SPMB / PPDB SMK Telkom 2 Medan",
+    "alternateQuestions": [
+      "halo",
+      "hai",
+      "assalamualaikum",
+      "selamat pagi",
+      "selamat siang",
+      "selamat sore",
+      "selamat malam",
+      "permisi",
+      "tes",
+      "apa kabar"
+    ],
+    "answer": "Halo! Selamat datang di Layanan Informasi PPDB (Penerimaan Peserta Didik Baru) / SPMB **SMK Telkom 2 Medan** Tahun Ajaran 2026/2027.\n\nSaya adalah **Telko-Bot**, asisten virtual cerdas Anda. Anda dapat bertanya mengenai jurusan unggulan (RPL, TKJ, DKV, TJAT), rincian biaya pendaftaran, uang gedung (DPP), SPP bulanan, syarat berkas, beasiswa prestasi, dan lokasi kampus di Jl. Halat No. 8 Medan.",
+    "tags": [
+      "halo",
+      "salam",
+      "selamat datang",
+      "pembuka",
+      "info"
+    ],
+    "priority": 1,
+    "updatedAt": "2026-08-27T06:33:43.015Z",
+    "source": "Sekretariat PPDB SMK Telkom 2 Medan"
+  },
+  {
     "id": "kb-001",
     "category": "Umum",
     "question": "Apa itu PPDB SMK Telkom 2 Medan dan kapan pendaftaran dibuka?",
     "alternateQuestions": [
       "kapan ppdb dibuka",
       "pendaftaran smk telkom medan",
-      "jadwal masuk smk telkom 2 medan",
       "info pendaftaran siswa baru",
       "tentang smk telkom 2 medan"
     ],
     "answer": "Pendaftaran Peserta Didik Baru (PPDB) SMK Telkom 2 Medan Tahun Ajaran 2026/2027 telah resmi **DIBUKA**! Pendaftaran dilaksanakan dalam beberapa gelombang:\n\n1. **Jalur Prestasi & Unggulan (JPB)**: Dibuka s.d. Maret 2026 (Bebas Tes Tulis + Diskon DPP).\n2. **Gelombang 1 (Early Bird)**: Januari - April 2026.\n3. **Gelombang 2 (Reguler)**: Mei - Juni 2026.\n4. **Gelombang 3**: Juli 2026 (jika kuota masih tersedia).\n\nPendaftaran dapat dilakukan secara online melalui website resmi atau langsung datang ke Sekretariat PPDB di **Jl. Halat No. 8 Medan**.",
-    "tags": ["ppdb", "jadwal", "pendaftaran", "gelombang"],
+    "tags": [
+      "ppdb",
+      "jadwal",
+      "pendaftaran",
+      "gelombang"
+    ],
     "priority": 1,
-    "updatedAt": "2026-02-15T10:00:00.000Z",
+    "updatedAt": "2026-08-27T06:33:43.015Z",
     "source": "Brosur Resmi PPDB 2026/2027"
   },
   {
@@ -28,7 +60,14 @@
       "kejuruan"
     ],
     "answer": "SMK Telkom 2 Medan memiliki **4 Program Keahlian Unggulan** berbasis teknologi dan industri digital:\n\n1. **RPL (Rekayasa Perangkat Lunak)**: Mempelajari Web & Mobile App Development, Artificial Intelligence dasar, Cloud Computing, dan UI/UX Design.\n2. **TKJ (Teknik Komputer & Jaringan)**: Fokus pada Jaringan Komputer, Router Cisco/Mikrotik, Administrasi Server, Cloud Infrastructure, dan Keamanan Jaringan (Cybersecurity).\n3. **DKV (Desain Komunikasi Visual)**: Mempelajari Desain Grafis, Animasi 2D/3D, Videografi, Fotografi, Motion Graphics, dan Digital Branding.\n4. **TJAT (Teknik Jaringan Akses Telekomunikasi)**: Spesialisasi pada Teknologi Fiber Optic, Jaringan Seluler (4G/5G), Wireless Access, VSAT, dan Smart City IoT.",
-    "tags": ["jurusan", "rpl", "tkj", "dkv", "tjat", "keahlian"],
+    "tags": [
+      "jurusan",
+      "rpl",
+      "tkj",
+      "dkv",
+      "tjat",
+      "keahlian"
+    ],
     "priority": 1,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Kurikulum & Kejuruan SMK Telkom 2 Medan"
@@ -44,7 +83,12 @@
       "prospek rpl"
     ],
     "answer": "**Jurusan RPL (Rekayasa Perangkat Lunak)** di SMK Telkom 2 Medan dibekali kurikulum standar industri IT dan sertifikasi resmi.\n\n- **Yang dipelajari**: Pemrograman Modern (JavaScript, Python, Flutter, React), Database SQL/NoSQL, AI Integrasi, Git/DevOps dasar.\n- **Fasilitas**: Lab Coding ber-AC, Mac Lab, Cloud Sandbox.\n- **Prospek Karir**: Full-Stack Web Developer, Mobile App Developer, Software QA Tester, Database Administrator, UI/UX Designer, hingga Technopreneur Startup.",
-    "tags": ["rpl", "software", "coding", "karir"],
+    "tags": [
+      "rpl",
+      "software",
+      "coding",
+      "karir"
+    ],
     "priority": 2,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Ketua Program Studi RPL"
@@ -60,7 +104,13 @@
       "fasilitas tkj"
     ],
     "answer": "**Jurusan TKJ (Teknik Komputer & Jaringan)** memiliki kemitraan resmi dengan **MikroTik Academy** dan **Cisco Networking Academy**.\n\n- **Yang dipelajari**: Konfigurasi Router & Switch, Fiber Optic Splicing, Server Linux/Windows, Keamanan Jaringan & Firewall, IoT & Cloud Computing.\n- **Sertifikasi**: Peluang mendapatkan sertifikasi internasional **MTCNA** dan **CCNA**.\n- **Prospek Karir**: Network Engineer, System/Cloud Administrator, Cyber Security Specialist, ISP Technical Support, Network Consultant.",
-    "tags": ["tkj", "jaringan", "cisco", "mikrotik", "karir"],
+    "tags": [
+      "tkj",
+      "jaringan",
+      "cisco",
+      "mikrotik",
+      "karir"
+    ],
     "priority": 2,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Ketua Program Studi TKJ"
@@ -76,7 +126,13 @@
       "desain grafis dan animasi"
     ],
     "answer": "**Jurusan DKV (Desain Komunikasi Visual)** dirancang untuk melahirkan talenta kreatif di era industri konten digital dan advertising.\n\n- **Yang dipelajari**: Adobe Photoshop, Illustrator, Premiere Pro, After Effects, 3D Blender, Fotografi Komersial, Studio Podcast, Brand Identity.\n- **Fasilitas**: Studio Multimedia, Kamera DSLR/Mirrorless, Lighting Studio, Drawing Tablet Lab.\n- **Prospek Karir**: Graphic Designer, Motion Graphic Artist, Video Editor, UI Designer, Social Media Creative Specialist, 3D Modeler.",
-    "tags": ["dkv", "desain", "multimedia", "animasi", "video"],
+    "tags": [
+      "dkv",
+      "desain",
+      "multimedia",
+      "animasi",
+      "video"
+    ],
     "priority": 2,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Ketua Program Studi DKV"
@@ -93,7 +149,12 @@
       "telkom akses"
     ],
     "answer": "**Jurusan TJAT (Teknik Jaringan Akses Telekomunikasi)** adalah jurusan khas Telkom yang didukung langsung oleh ekosistem **PT Telkom Indonesia** dan **PT Telkom Akses**.\n\n- **Yang dipelajari**: Teknologi Jaringan Akses Kabel (FTTH/Fiber To The Home), Splicing & OTDR Fiber Optic, Transmisi Radio & Gelombang Mikro, Jaringan Nirkabel 4G/5G, dan Instalasi Perangkat Telekomunikasi.\n- **Peluang Kerja**: Prioritas rekrutmen teknisi di industri telekomunikasi (Telkom Group, Provider Seluler, Tower Bersama Group, Vendor Telekomunikasi Nasional).",
-    "tags": ["tjat", "telekomunikasi", "fiber optic", "telkom akses"],
+    "tags": [
+      "tjat",
+      "telekomunikasi",
+      "fiber optic",
+      "telkom akses"
+    ],
     "priority": 2,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Ketua Program Studi TJAT"
@@ -106,13 +167,18 @@
       "syarat daftar",
       "berkas yang harus disiapkan",
       "dokumen pendaftaran",
-      "persyaratan masuk",
-      "apa saja yang dibawa"
+      "persyaratan masuk"
     ],
     "answer": "Berikut adalah **persyaratan & dokumen pendaftaran** siswa baru:\n\n1. Mengisi Formulir Pendaftaran (Online atau Offline).\n2. Fotokopi Rapor SMP/MTs (Semester 1 s.d 5) yang dilegalisir (1 rangkap).\n3. Fotokopi Kartu Keluarga (KK) & Akta Kelahiran (2 lembar).\n4. Fotokopi Ijazah / Surat Keterangan Lulus (SKL) dari SMP/MTs asal (bisa menyusul jika belum terbit).\n5. Pasfoto terbaru ukuran 3x4 berwarna dengan latar belakang merah/biru (3 lembar).\n6. Fotokopi Kartu NISN aktif.\n7. Surat Keterangan Berkelakuan Baik dari sekolah asal.\n8. Membayar biaya formulir pendaftaran.",
-    "tags": ["syarat", "berkas", "dokumen", "rapor", "nisn"],
+    "tags": [
+      "syarat",
+      "berkas",
+      "dokumen",
+      "rapor",
+      "nisn"
+    ],
     "priority": 1,
-    "updatedAt": "2026-02-15T10:00:00.000Z",
+    "updatedAt": "2026-08-27T06:34:41.808Z",
     "source": "Panitia PPDB - Bagian Administrasi"
   },
   {
@@ -129,7 +195,14 @@
       "apakah ada cicilan biaya"
     ],
     "answer": "Rincian estimasi biaya PPDB SMK Telkom 2 Medan TA 2026/2027 adalah sebagai berikut:\n\n- **Biaya Formulir & Seleksi**: Rp 200.000\n- **DPP (Dana Pengembangan Pendidikan / Uang Gedung)**: Mulai dari Rp 4.500.000 s.d. Rp 6.500.000 (Tergantung gelombang pendaftaran, terdapat potongan khusus s.d 25%-50% untuk Gelombang 1 dan Jalur Prestasi).\n- **SPP Bulanan**: Sekitar Rp 450.000 - Rp 550.000 / bulan (sudah termasuk fasilitas lab, akses internet, dan praktikum).\n- **Paket Seragam & Atribut Lengkap**: Sekitar Rp 1.200.000 (Seragam Telkom Merah-Hitam, Kemeja Putih-Abu, Pramuka, Baju Olahraga, Dasi, Topi, Sabuk, dan Bet Nama).\n\n*Catatan: Pembayaran DPP dapat diangsur/dicicil sesuai kesepakatan dengan bagian keuangan sekolah.*",
-    "tags": ["biaya", "uang gedung", "dpp", "spp", "formulir", "cicilan"],
+    "tags": [
+      "biaya",
+      "uang gedung",
+      "dpp",
+      "spp",
+      "formulir",
+      "cicilan"
+    ],
     "priority": 1,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Bendahara PPDB SMK Telkom 2 Medan"
@@ -148,7 +221,13 @@
       "beasiswa rangking"
     ],
     "answer": "Ya, SMK Telkom 2 Medan menyediakan beberapa skema **Beasiswa & Potongan Biaya**:\n\n1. **Beasiswa Prestasi Akademik (Rapor)**: Potongan DPP hingga 50% bagi siswa dengan ranking 1-3 paralel di SMP/MTs.\n2. **Beasiswa Prestasi Non-Akademik**: Potongan khusus bagi juara lomba tingkat Kota/Provinsi/Nasional di bidang Olahraga, Seni, Robotik, atau IT.\n3. **Beasiswa Tahfidz Al-Qur'an**: Potongan biaya untuk calon siswa hafiz Al-Qur'an (minimal 3 Juz).\n4. **Beasiswa Yayasan Pendidikan Telkom (YPT)**: Bantuan biaya pendidikan bagi siswa berprestasi dari keluarga kurang mampu (KIP / SKTM).\n5. **Diskon Keluarga Telkom**: Potongan khusus bagi putra/putri karyawan Telkom Group atau alumni SMK Telkom.",
-    "tags": ["beasiswa", "prestasi", "diskon", "tahfidz", "ypt"],
+    "tags": [
+      "beasiswa",
+      "prestasi",
+      "diskon",
+      "tahfidz",
+      "ypt"
+    ],
     "priority": 1,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Kesiswaan & YPT SMK Telkom 2 Medan"
@@ -165,7 +244,13 @@
       "lingkungan sekolah"
     ],
     "answer": "Fasilitas modern di SMK Telkom 2 Medan meliputi:\n\n- **Laboratorium Komputer & Jaringan Full AC**: Dilengkapi PC spek tinggi dan peralatan Cisco/MikroTik standar industri.\n- **Laboratorium Fiber Optik & Telekomunikasi**: Alat Splicer, OTDR, Power Meter, dan Miniatur FTTH Telkom.\n- **Studio Multimedia & Podcast**: Kamera broadcast, greenscreen studio, dan software editing lisensi resmi.\n- **Smart Classroom**: Dilengkapi Smart TV / Proyektor interaktif dan Wi-Fi High Speed Telkom Orbit / Indihome Dedicated.\n- **Perpustakaan Digital**: Ribuan e-book dan jurnal teknologi.\n- **Sarana Olahraga**: Lapangan Futsal, Basket, Voli, dan Badminton.\n- **Masjid / Musholla yang Luas dan Nyaman**.\n- **Kantin Sehat & Tempat Parkir Luas Terpantau CCTV 24 Jam**.",
-    "tags": ["fasilitas", "lab", "studio", "smart classroom", "wifi"],
+    "tags": [
+      "fasilitas",
+      "lab",
+      "studio",
+      "smart classroom",
+      "wifi"
+    ],
     "priority": 2,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Wakil Kepala Sekolah Bidang Sarana & Prasarana"
@@ -183,7 +268,14 @@
       "jam buka sekretariat"
     ],
     "answer": "Berikut adalah **informasi kontak dan alamat resmi**:\n\n- **Alamat Kampus**: Jl. Halat No. 8, Pasar Merah, Kec. Medan Area, Kota Medan, Sumatera Utara 20216.\n- **WhatsApp Hotline PPDB**: **0812-6000-8802** / **0821-6555-1234**\n- **Telepon Kantor**: (061) 736-2244\n- **Email Resmi**: ppdb@smktelkom2medan.sch.id\n- **Website Pendaftaran**: https://smktelkom2medan.sch.id\n- **Jam Layanan Sekretariat**: \n  * Senin - Jumat: 08.00 - 16.00 WIB\n  * Sabtu: 08.00 - 13.00 WIB (Minggu/Hari Libur Nasional Tutup)",
-    "tags": ["kontak", "alamat", "whatsapp", "telepon", "lokasi", "jam kerja"],
+    "tags": [
+      "kontak",
+      "alamat",
+      "whatsapp",
+      "telepon",
+      "lokasi",
+      "jam kerja"
+    ],
     "priority": 1,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Sekretariat PPDB SMK Telkom 2 Medan"
@@ -199,7 +291,12 @@
       "langkah pendaftaran"
     ],
     "answer": "Alur pendaftaran siswa baru sangat mudah dan dapat dilakukan dalam **5 langkah**:\n\n1. **Akses Portal PPDB**: Buka website resmi pendaftaran di browser Anda.\n2. **Isi Formulir Biodata**: Lengkapi data diri calon siswa, NISN, asal sekolah, dan pilihan jurusan (Pilihan 1 & Pilihan 2).\n3. **Upload Dokumen**: Unggah scan/foto KK, Akta Kelahiran, dan Rapor Semester 1-5.\n4. **Pembayaran Biaya Formulir**: Lakukan pembayaran biaya formulir (transfer bank / virtual account / kasir sekolah).\n5. **Uji Minat & Wawancara**: Ikuti tes wawancara dan minat bakat sesuai jadwal yang ditentukan (secara online atau hadir langsung di kampus).\n6. **Pengumuman & Daftar Ulang**: Hasil kelulusan akan diumumkan via akun pendaftar & WhatsApp.",
-    "tags": ["alur", "cara daftar", "tahapan", "online"],
+    "tags": [
+      "alur",
+      "cara daftar",
+      "tahapan",
+      "online"
+    ],
     "priority": 1,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Buku Panduan Teknis PPDB"
@@ -216,7 +313,13 @@
       "ekstrakurikuler"
     ],
     "answer": "SMK Telkom 2 Medan menyediakan beragam **Ekstrakurikuler (Ekskul)** untuk mengembangkan minat dan bakat siswa:\n\n- **Bidang Teknologi**: IT Club (Competitive Programming, Web Dev), Robotic & IoT Club, Cyber Security Club, Cisco Networking Club.\n- **Bidang Seni & Kreatif**: Fotografi & Sinematografi, Desain Grafis & Animasi, Band Musik, Seni Tari Tradisional & Modern.\n- **Bidang Olahraga**: Futsal Club, Basket, Badminton, Tenis Meja, E-Sports Squad.\n- **Bidang Kepemimpinan & Karakter**: OSIS, Paskibra, Pramuka Wajib, Palang Merah Remaja (PMR), Rohis & Rohkris.",
-    "tags": ["ekskul", "robotik", "it club", "olahraga", "osis"],
+    "tags": [
+      "ekskul",
+      "robotik",
+      "it club",
+      "olahraga",
+      "osis"
+    ],
     "priority": 3,
     "updatedAt": "2026-02-15T10:00:00.000Z",
     "source": "Pembina OSIS & Kesiswaan"

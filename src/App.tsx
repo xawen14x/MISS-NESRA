@@ -6,6 +6,7 @@ import { ChatBox } from './components/ChatBox.js';
 import { VoiceController } from './components/VoiceController.js';
 import { AdminKnowledgeModal } from './components/AdminKnowledgeModal.js';
 import { StandaloneArchModal } from './components/StandaloneArchModal.js';
+import { PasswordAuthModal } from './components/PasswordAuthModal.js';
 import {
   ChatMessage,
   ChatSession,
@@ -93,6 +94,7 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isArchOpen, setIsArchOpen] = useState(false);
+  const [authModalTarget, setAuthModalTarget] = useState<'admin' | 'arch' | null>(null);
   const [kbItemCount, setKbItemCount] = useState(13);
 
   const currentSession = sessions.find((s) => s.id === activeSessionId) || sessions[0] || DEFAULT_SESSION;
@@ -456,8 +458,8 @@ export default function App() {
         {/* Top Header */}
         <HeaderNav
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-          onOpenAdmin={() => setIsAdminOpen(true)}
-          onOpenArch={() => setIsArchOpen(true)}
+          onOpenAdmin={() => setAuthModalTarget('admin')}
+          onOpenArch={() => setAuthModalTarget('arch')}
           onResetSession={handleResetCurrentSession}
           kbItemCount={kbItemCount}
         />
@@ -537,6 +539,22 @@ export default function App() {
       <StandaloneArchModal
         isOpen={isArchOpen}
         onClose={() => setIsArchOpen(false)}
+      />
+
+      {/* 5. Password Authentication Modal for Admin Panel & Architecture */}
+      <PasswordAuthModal
+        isOpen={authModalTarget !== null}
+        targetFeature={authModalTarget}
+        onClose={() => setAuthModalTarget(null)}
+        onSuccess={() => {
+          const target = authModalTarget;
+          setAuthModalTarget(null);
+          if (target === 'admin') {
+            setIsAdminOpen(true);
+          } else if (target === 'arch') {
+            setIsArchOpen(true);
+          }
+        }}
       />
     </div>
   );

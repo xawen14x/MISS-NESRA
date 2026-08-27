@@ -704,24 +704,33 @@ export const AdminKnowledgeModal: React.FC<AdminKnowledgeModalProps> = ({
             {testResult && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-700">Hasil Pencocokan:</span>
+                  <span className="text-xs font-semibold text-slate-700">Hasil Pencocokan N-Gen:</span>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-slate-500">Skor Kesamaan:</span>
                     <span
                       className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                        testResult.score >= 0.7
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : testResult.score >= 0.4
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-red-100 text-red-800'
+                        testResult.score >= 0.5
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                          : 'bg-red-100 text-red-800 border border-red-300'
                       }`}
                     >
-                      {(testResult.score * 100).toFixed(1)}%
+                      {(testResult.score * 100).toFixed(1)}% {testResult.score >= 0.5 ? '(≥ 50% Lolos SPMB)' : '(< 50% Dialihkan)'}
                     </span>
                   </div>
                 </div>
 
-                {testResult.match ? (
+                {testResult.score < 0.5 && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800">
+                    <strong>Status: Dialihkan Otomatis</strong>
+                    <p className="mt-1">
+                      Karena skor kecocokan N-Gen di bawah 50%, sistem secara otomatis memberikan jawaban:
+                      <br />
+                      <em>"Maaf untuk pertanyaan tersebut belum dapat saya jawab, silahkan ditanya dengan pertanyaan seputar SPMB. Jika ada yang ingin ditanyakan, saya senang hati akan menjawabnya."</em>
+                    </p>
+                  </div>
+                )}
+
+                {testResult.match && (
                   <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-xs space-y-2">
                     <div className="flex items-center gap-2">
                       <span className="px-2 py-0.5 text-[10px] font-bold bg-red-100 text-red-700 rounded-md">
@@ -740,14 +749,6 @@ export const AdminKnowledgeModal: React.FC<AdminKnowledgeModalProps> = ({
                       <span>Sumber: {testResult.match.source}</span>
                       <span>Tags: {testResult.match.tags.join(', ')}</span>
                     </div>
-                  </div>
-                ) : (
-                  <div className="p-6 text-center text-slate-500 bg-slate-50 rounded-xl border border-slate-200">
-                    <AlertCircle className="w-6 h-6 mx-auto mb-1 text-amber-500" />
-                    <p className="text-xs">
-                      Tidak ada dokumen lokal yang cocok secara langsung. Pertanyaan ini akan
-                      dialirkan ke AI Fallback RAG.
-                    </p>
                   </div>
                 )}
               </div>
