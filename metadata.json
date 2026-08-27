@@ -1,0 +1,6 @@
+{
+  "name": "AI PPDB SMK Telkom 2 Medan",
+  "description": "Asisten Virtual AI Interaktif Tanya-Jawab Pendaftaran Siswa Baru (PPDB) SMK Telkom 2 Medan dengan Fitur Suara STT, Narasi TTS, Avatar Interaktif, dan Dynamic Knowledge Base.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
